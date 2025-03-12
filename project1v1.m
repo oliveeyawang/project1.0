@@ -71,11 +71,11 @@ StartGame = uicontrol('Style','pushbutton', 'Units','normalized',...
 
 
 
-set(five_normal, 'Callback', {@user_mode, five_normal, timecha, StartGame});
-set(timecha, 'Callback', {@user_mode, five_normal, timecha, StartGame});
+set(five_normal, 'Callback', {@user_mode, five_normal, timecha, StartGame, scrsz});
+set(timecha, 'Callback', {@user_mode, five_normal, timecha, StartGame, scrsz});
 
 % Button function
-function user_mode (button, ~, five_normal, timecha, StartGame)
+function user_mode (button, ~, five_normal, timecha, StartGame, scrsz)
 
 % Allows for switch between buttons
 if strcmpi(button.UserData, 'five_normal')

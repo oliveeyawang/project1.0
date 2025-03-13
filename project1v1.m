@@ -36,10 +36,7 @@ uicontrol('Style', 'text', ...
     'FontName', 'Georgia', ...
     'BackgroundColor', [1,1,1]);
 
-%repeat gif this amount of times
-numRepeats = 2;
 
-for repeat = 1:numRepeats
 % Loop through the frames within GIF to display the GIF
     for k = 1:numFrames
 
@@ -49,7 +46,6 @@ for repeat = 1:numRepeats
     % Adjust the pause to control the speed of animation
         pause(0.2);  
     end
-end 
 
 uicontrol('Style', 'pushbutton', ...
     'String', 'Game! (click here to start)', ...

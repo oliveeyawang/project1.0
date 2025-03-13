@@ -23,7 +23,7 @@ h = figure;
 % Loop through the frames to display them
 for k = 1:size(img, 4)
     imshow(img(:,:,:,k), map);
-    pause(0.3);  % Adjust the pause to control the speed of animation
+    pause(0.1);  % Adjust the pause to control the speed of animation
 end
 
 

@@ -9,24 +9,34 @@ tan_orange = [0.925, 0.624, 0.169];
 
 green = [0.349, 0.8, 0.02];
 
+%%%%%%%
+
+%define screen size of the figure window
+scrsz = get(0, 'ScreenSize'); 
+
+%create a figure window with the screen size 
 start_screen = figure('Position', scrsz, 'Color', [1, 1, 1], 'Name', 'Start Screen', 'NumberTitle', 'off');
 
+%set axes position for displaying the GIF (can adjust as needed)
 axes('Position', [0.3, 0.5, 0.4, 0.3]); 
-img = imread('aragman.jpg'); %testing anagram jpeg i drew pls lord work
-imshow(img);
 
-[img, map] = imread('anagram.gif', 'frames', 'all'); 
+%read the GIF and get its frames and colormap
+[gifImage, map] = imread('anagram.gif', 'frames', 'all');  %testing anagram jpeg i drew pls lord work
 
-% Create a figure for displaying
-h = figure;
+%get dimensions of GIF
+[gifHeight, gifWidth, ~,numFrames] = size(gifImage); 
 
-% Loop through the frames to display them
-for k = 1:size(img, 4)
-    imshow(img(:,:,:,k), map);
-    pause(0.3);  % Adjust the pause to control the speed of animation
+% Loop through the frames within GIF to display the GIF
+for k = 1:numFrames
+
+    %display the current frame of the GIF
+    imshow(gifImage(:,:,:,k), map);
+
+    % Adjust the pause to control the speed of animation
+    pause(0.1);  
 end
 
-
+%%%%%%%
 uicontrol('Style', 'text', ...
     'String', 'WELCOME TO', ...
     'Units', 'normalized', ...

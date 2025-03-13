@@ -93,47 +93,75 @@ StartGame = uicontrol('Style','pushbutton', 'Units','normalized',...
 
 
 
-set(five_normal, 'Callback', {@user_mode, five_normal, timecha, StartGame, scrsz});
-set(timecha, 'Callback', {@user_mode, five_normal, timecha, StartGame, scrsz});
+set(five_normal, 'Callback', @(src, event) user_mode(src, five_normal, timecha, StartGame, scrsz, green));
+set(timecha, 'Callback', @(src, event) user_mode(src, five_normal, timecha, StartGame, scrsz, green));
 
 % Button function
-function user_mode (button, ~, five_normal, timecha, StartGame, scrsz)
-
-% Allows for switch between buttons
-if strcmpi(button.UserData, 'five_normal')
-    five_normal.Enable = 'on';
-    timecha.Enable = 'on';
-    StartGame.String = 'Ready!';
-    StartGame.Visible = 'on';
-
-   set(StartGame, 'Callback', @(src, event) create_mode_screen('Five Normal', scrsz));
-
-elseif strcmpi(button.UserData, 'timecha')
-    five_normal.Enable = 'on';
-    timecha.Enable = 'on';
-    StartGame.String = 'START';
-    StartGame.Visible = 'on';
-
-    set(StartGame, 'Callback', @(src, event) create_mode_screen('Time Challenge', scrsz));
-    
-else 
-    fprintf('shouldn''t happen, error')
-end
+function user_mode(button, five_normal, timecha, StartGame, scrsz, green)
+    if strcmpi(button.UserData, 'five_normal')
+        StartGame.String = 'Ready!'; % Update button text
+        StartGame.Visible = 'on'; % Make the Start button visible
+        % Set callback for Start button when mode is selected
+        set(StartGame, 'Callback', @(src, event) create_mode_screen('Five Normal', scrsz, green));
+    elseif strcmpi(button.UserData, 'timecha')
+        StartGame.String = 'Ready!'; % Update button text
+        StartGame.Visible = 'on'; % Make the Start button visible
+        % Set callback for Start button when mode is selected
+        set(StartGame, 'Callback', @(src, event) create_mode_screen('Time Challenge', scrsz, green));
+    end
 end
 
-function create_mode_screen(mode, scrsz)
+%% Function for Mode Screens
+function create_mode_screen(mode, scrsz, green)
     % Close previous figure
     close all;
 
     % Create the figure for the selected game mode
-    mode_screen = figure('Position', scrsz);
+    mode_screen = figure('Position', scrsz, 'Color', [1, 1, 1], 'Name', [mode ' Mode'], 'NumberTitle', 'off');
 
-    % Set the title based on the selected mode
-    uicontrol('Style', 'text', 'String', [mode ' Mode'], 'FontSize', 30, 'Position', [0.4, 0.5, 0.2, 0.2]);
+    % Display the mode name
+    uicontrol('Style', 'text', ...
+              'String', [mode ' Mode'], ...
+              'Units', 'normalized', ...
+              'Position', [0.4, 0.8, 0.2, 0.1], ...
+              'FontSize', 30, ...
+              'FontWeight', 'bold', ...
+              'BackgroundColor', [1, 1, 1]);
 
-    % Customize the figure for the selected game mode here
-    % Example: add game logic, buttons, etc.
-    % You can add the game interface here (e.g., text, buttons, etc.)
-    % Just as a placeholder:
-    uicontrol('Style', 'pushbutton', 'String', ['Start ' mode], 'FontSize', 20, 'Position', [0.4, 0.4, 0.2, 0.1]);
+    % Create the start button (will disappear after click)
+    startButton = uicontrol('Style', 'pushbutton', ...
+                            'String', ['Start ' mode], ...
+                            'Units', 'normalized', ...
+                            'Position', [0.4, 0.3, 0.2, 0.08], ...
+                            'FontSize', 20, ...
+                            'FontWeight', 'bold', ...
+                            'BackgroundColor', [green], ...
+                            'ForegroundColor', [1, 1, 1], ...
+                            'Callback', @(src, event) start_game(mode, src)); % Pass handle to hide after click
+end
+
+%% Function for Starting Game
+function start_game(mode, buttonHandle)
+    disp([mode ' game started!']);
+    
+    % Hide the start button after clicking
+    set(buttonHandle, 'Visible', 'off');
+    
+    % **Show input box ONLY for Time Challenge mode**
+    if strcmp(mode, 'Time Challenge')
+        uicontrol('Style', 'edit', ...
+                  'Units', 'normalized', ...
+                  'Position', [0.08, 0.7, 0.25, 0.08], ...
+                  'FontSize', 18, ...
+                  'BackgroundColor', [0.9, 0.9, 0.9], ...
+                  'ForegroundColor', [0, 0, 0], ...
+                  'Callback', @handle_input);
+        uicontrol('Style', 'pushbutton', 'String', ['Start ' mode], 'FontSize', 20, 'Position', [0.4, 0.4, 0.2, 0.1]);
+    end
+end
+
+%% Function to Handle Input (Example)
+function handle_input(src, ~)
+    userInput = get(src, 'String');
+    disp(['User input: ' userInput]);
 end

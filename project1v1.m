@@ -1,7 +1,11 @@
 
 %kiara can u see this
 % second change
+<<<<<<< Updated upstream
 %try again
+=======
+% something
+>>>>>>> Stashed changes
 scrsz = get(groot, 'ScreenSize');
 
 banana_milk = [1,0.831,0.431];

@@ -1,4 +1,6 @@
 
+%kiara can u see this
+% 
 scrsz = get(groot, 'ScreenSize');
 
 banana_milk = [1,0.831,0.431];
